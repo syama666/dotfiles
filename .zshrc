@@ -1,25 +1,41 @@
 export LANG=ja_JP.UTF-8
+export LC_ALL=ja_JP.UTF-8
 export LSCOLORS=gxfxcxdxbxegedabagacad
 export TERM=xterm-color
-export PATH=/usr/local/bin:$PATH
+export PATH=/usr/X11/bin:/usr/local/bin:/usr/local/opt:~/.bin:~/.local/bin:$PATH
 export EDITOR=vim
+export SVN_EDITOR=~/Applications/MacVim.app/Contents/MacOS/Vim
 export LESS='-R'
-export GREP_OPTIONS='--color=always'
-alias mvim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
+##gvmがだめになるので一旦コメントアウト
+#export GREP_OPTIONS='--color=always'
+##
+export SHELL=/usr/local/bin/zsh
+
+alias mvim='env LANG=ja_JP.UTF-8 ~/Applications/MacVim.app/Contents/MacOS/Vim "$@"'
 
 bindkey -e
 stty stop undef
 
 ZSH_FILES=~/.zsh
 
+
+#Android
+ANDROID_HOME=~/android-sdk
+
 # node
-if [[ -f ~/.nvm/nvm.sh ]]; then
-    source ~/.nvm/nvm.sh
+if [[ -f `brew --prefix nvm`/nvm.sh ]]; then
+    source $(brew --prefix nvm)/nvm.sh
+    export NVM_DIR=~/.nvm
     #nvm alias default 0.8
     #nvm use v0.8.3
-    nvm use v0.8.17
+    #nvm use v0.8.26
     #export NODE_PATH=${NVM_PATH}_modules:/usr/local/lib/jsctags/
-    npm_dir=${NVM_PATH}_modules
+    #nvm use v0.11.11
+    #nvm use v5.0.0
+    #nvm use v4.1.2
+    #nvm use v4.6.2
+    nvm use v4.8.3
+    npm_dir=${NVM_PATH}_modules:$(npm root -g)
     export NODE_PATH=$npm_dir:$npm_dir/npm/bin/node-gyp-bin
 fi
 # npm install -g optimist async jshint nodeunit mocha should node-inspector node-dev long-stack-traces
@@ -39,7 +55,33 @@ export MAVEN_HOME=/usr/local/maven2
 fi
 
 # python
-[[ -s $HOME/.pythonbrew/etc/bashrc ]] && source $HOME/.pythonbrew/etc/bashrc
+if [[ -d ${HOME}/.pyenv ]]; then
+    export PATH=${HOME}/.pyenv/shims:${PATH}
+    eval "$(pyenv init -)"
+    PYTHON_GLOBAL=`pyenv global`
+    echo "version:"${PYTHON_GLOBAL}
+    export PATH=${HOME}/.pyenv/versions/${PYTHON_GLOBAL}/bin:${PATH}
+fi
+
+#go
+source ~/_gvm/scripts/gvm
+#gvm use go1.4
+#gvm use go1.5.3
+#gvm use go1.6
+#gvm use go1.7
+#gvm use go1.8
+gvm use go1.9
+#export GOPATH=${HOME}/fxxk
+export PATH=${GOPATH}/bin:$(go env GOROOT)/bin:$PATH
+#direnv for go
+#eval "$(direnv hook zsh)"
+
+# Docker glasgow
+#export DOCKER_TLS_VERIFY="1"
+#export DOCKER_HOST="tcp://192.168.99.100:2376"
+#export DOCKER_CERT_PATH="/Users/a12139/.docker/machine/machines/glasgow"
+#export DOCKER_MACHINE_NAME="glasgow"
+export GLASGOW_DOCKER_HOST="localhost"
 
 # prompt
 case ${UID} in
@@ -161,3 +203,14 @@ zle -N show_buffer_stack
 
 # 設定ファイルのinclude
 [ -f ~/.zshrc.include ] && source ~/.zshrc.include
+
+# added by travis gem
+[ -f /Users/a12139/.travis/travis.sh ] && source /Users/a12139/.travis/travis.sh
+
+# The next line updates PATH for the Google Cloud SDK.
+source '/Users/a12139/google-cloud-sdk/path.zsh.inc'
+
+# The next line enables shell command completion for gcloud.
+source '/Users/a12139/google-cloud-sdk/completion.zsh.inc'
+
+

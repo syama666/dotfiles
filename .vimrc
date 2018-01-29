@@ -3,7 +3,7 @@ set number
 set nobackup
 set list
 set listchars=tab:>-,nbsp:%,trail:_
-set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/vundle
 set laststatus=2
 "ステータス表示 文字コードとか改行コードとか
 set statusline=%<%f\ %m%r%h%w
@@ -27,7 +27,7 @@ set clipboard+=unnamed,autoselect
 filetype off
 call vundle#rc()
 Bundle 'gmarik/vundle'
-Bundle 'JavaScript-syntax'
+"Bundle 'JavaScript-syntax'
 Bundle 'Javascript-Indentation'
 Bundle 'svnvimdiff'
 Bundle 'jsbeautify'
@@ -40,6 +40,11 @@ Bundle 'Markdown-syntax'
 Bundle 'quickrun.vim'
 Bundle 'open-browser.vim'
 Bundle 'bash-support.vim'
+Bundle 'pangloss/vim-javascript'
+Bundle 'jelera/vim-javascript-syntax'
+Bundle 'othree/javascript-libraries-syntax.vim'
+Bundle 'fatih/vim-go'
+
 let g:neocomplcache_enable_at_startup = 1
 imap <C-k> <Plug>(neocomplcache_snippets_expand)
 smap <C-k> <Plug>(neocomplcache_snippets_expand)
@@ -69,15 +74,25 @@ filetype plugin indent on
 "for syntastic
 let g:syntastic_enable_signs=1
 let g:syntastic_auto_loc_list=2
-let g:syntastic_javascript_checker='jshint'
+let g:syntastic_javascript_checkers=['jshint']
 let g:syntastic_mode_map = { 'mode': 'active',
-  \ 'active_filetypes': ['javascript','js']}
+  \ 'active_filetypes': ['go', 'javascript','js']}
+
+
+let g:go_disable_autoinstall = 1
+let g:go_fmt_autosave = 1
+let g:go_fmt_command = 'gofmt'
+let g:go_fmt_fail_silently = 1
+let g:go_play_open_browser = 0
+
+
+set ts=4 sw=4 sts=4 sr et ai
 
 augroup groupone
 
     autocmd!
 
-    autocmd FileType javascript set ts=4 sw=4 sts=4 expandtab
+    autocmd FileType javascript set ts=2 sw=2 sts=2 expandtab
     autocmd FileType python set ts=4 sw=4 sts=4 expandtab
     autocmd BufRead,BufNewFile *.js set ft=javascript fenc=utf-8
     autocmd BufRead,BufNewFile *.py set ft=python fenc=utf-8
@@ -85,7 +100,7 @@ augroup groupone
     autocmd BufRead,BufNewFile *.md set filetype=markdown fenc=utf-8
     autocmd FileType sh set ts=2 sw=2 sts=2 expandtab
     autocmd BufRead,BufNewFile *.sh set filetype=sh fenc=utf-8
-    
+
     "let scheme = 'jellybeans'
     "execute 'colorscheme' scheme
     "execute 'autocmd GUIEnter * colorscheme' scheme
